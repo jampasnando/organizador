@@ -1,4 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild} from '@angular/core';
+import { ConsultasService } from '../service/consultas.service';
+import { AlertController, IonList, ModalController} from '@ionic/angular';
+import { ModaleventoPage } from './modalevento/modalevento.page';
+
 
 @Component({
   selector: 'app-home',
@@ -6,7 +10,68 @@ import { Component } from '@angular/core';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
+  datos:any;
+  @ViewChild("mislide",{static:false}) mislide:IonList;
+  constructor(private consulta:ConsultasService,private alertCtrl:AlertController,private modalCtrl:ModalController) {}
+  ngOnInit(){
+    
+  }
+  ionViewWillEnter(){
+    this.listaeventos();
+  }
+  listaeventos(){
+    this.consulta.consultaEventos().subscribe((data:any)=>{
+      this.datos=data;
+      console.log(data);
 
-  constructor() {}
+    });
+  }
+  async borraEvento(uno){
+    const alerta= await this.alertCtrl.create({
+      header:"Está seguro de Borrar",
+      subHeader:"El evento ".concat(uno.nombre).concat("???"),
+      message:"Se borrarán TODAS LAS REUNIONES Y ASISTENTES QUE PERTENECEN A ESTE EVENTO. <br> Si no está seguro aprete Cancelar",
+      buttons:[
+        {
+          text:"Cancelar",
+          role:"cancel",
+          handler:(blah)=>{
+            this.mislide.closeSlidingItems();
+          }
+        },
+        {
+          text:"Borrar",
+          handler:(blah)=>{
+            // console.log("intentara borrar evento: ",uno.id);
+            this.consulta.borraEvento(uno.id).subscribe((data:any)=>{
+              let index=this.datos.indexOf(uno);
+              this.datos.splice(index,1);
+            });
+          }
+        }
+      ]
+    });
+    alerta.present();
+  }
+  async cambiaEstadoEvento(evento){
+    console.log("el modal abrirá con: ",evento);
+    const modal= await this.modalCtrl.create({
+      component:ModaleventoPage,
+      componentProps:{
+        estadoactual:evento.estado
+      },
+      
+    });
+    modal.onDidDismiss().then((datos)=>{
+      if(datos.data!="cancelado"){
+        this.consulta.actualizaEstadoEv(evento.id,datos.data).subscribe((res:any)=>{
+          evento.estado=datos.data;
+        });
+      }
+     
+      this.mislide.closeSlidingItems();
+    });
+    await modal.present();
 
+  }
 }

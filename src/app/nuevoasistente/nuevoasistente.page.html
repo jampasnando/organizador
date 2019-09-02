@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-toolbar color="primary" mode="ios">
+      <ion-buttons slot="start">
+          <ion-back-button></ion-back-button>
+      </ion-buttons>
+    <ion-title>TIQUEO: {{nrotiq}} </ion-title>
+    <ion-buttons slot="end">
+        <ion-button routerLink="/">
+          <ion-icon name="home"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-searchbar [(ngModel)]="searchTerm" (ionChange)="setFilteredItems()" #buscador></ion-searchbar>
+    <ion-virtual-scroll [items]="empleados ">
+        <ion-item-sliding *virtualItem="let unemp" (click)="vecheck($event,unemp)">
+          <ion-item-options>
+            <ion-item-option (click)="comenta()">Comentar</ion-item-option>
+          </ion-item-options>
+          <ion-item>
+            <ion-label><h4>{{unemp.nombre}}</h4></ion-label>
+            <!-- <ion-badge *ngIf="unemp.hora_registro!=''" color="secondary">{{unemp.hora_registro}}</ion-badge> --><ion-badge *ngIf="unemp.marcador!=''" color="secondary">{{unemp.marcador}}</ion-badge>
+
+          </ion-item>
+        </ion-item-sliding>  
+    </ion-virtual-scroll>
+
+</ion-content>
+<ion-footer>
+    <ion-toolbar>
+      <ion-button expand="full" (click)="guardatiqueos()">Guardar Tiqueos</ion-button>
+    </ion-toolbar>
+  </ion-footer>

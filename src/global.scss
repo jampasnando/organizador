@@ -24,3 +24,13 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+div[role=dialog]{
+    width: 95% !important;
+    height: 70% !important;
+}
+ion-fab{
+    position: fixed;
+    bottom: 3vw;
+    right: 3vw;
+}

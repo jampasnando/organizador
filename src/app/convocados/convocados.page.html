@@ -1,0 +1,35 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+      <ion-searchbar [(ngModel)]="searchTerm" (ionChange)="setFilteredItems()" #buscador></ion-searchbar>
+      <ion-buttons slot="end">
+          <ion-button routerLink="/">
+            <ion-icon name="home"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+  
+  <ion-content>
+      
+      <ion-virtual-scroll [items]="empleados">
+          <ion-item-sliding *virtualItem="let unemp" (click)="vecheck($event,unemp)">
+            <ion-item-options>
+              <ion-item-option (click)="comenta()">Comentar</ion-item-option>
+            </ion-item-options>
+            <ion-item>
+              <ion-icon name="contact" slot="start" color="light-shade"></ion-icon>
+              <ion-label>{{unemp.employee_name}}</ion-label>
+              <ion-badge *ngIf="unemp.convocado!=''" color="warning">{{unemp.convocado}}</ion-badge>
+            </ion-item>
+          </ion-item-sliding>  
+        </ion-virtual-scroll>
+    
+  </ion-content>
+  <ion-footer>
+    <ion-toolbar>
+      <ion-button expand="full" (click)="guardaconvocados()">Guardar Convocados</ion-button>
+    </ion-toolbar>
+  </ion-footer>

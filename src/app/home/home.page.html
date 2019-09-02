@@ -1,14 +1,37 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar mode="ios">
     <ion-title>
-      Ionic Blank
+      EVENTOS
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <div class="ion-padding">
-    The world is your oyster.
-    <p>If you get lost, the <a target="_blank" rel="noopener" href="https://ionicframework.com/docs/">docs</a> will be your guide.</p>
-  </div>
+  <ion-list #mislide>
+    <ion-item-sliding *ngFor="let unev of datos;let i=index" >
+      <ion-item-options side="start">
+        <ion-item-option color="danger" (click)="borraEvento(unev)">Borrar</ion-item-option>
+      </ion-item-options>
+      <ion-item  [routerLink]="['/unevento',unev.id]">
+        <ion-label>
+          
+          <h2>{{unev.nombre}}</h2>
+          <p>{{unev.descripcion}}</p>
+        </ion-label>
+        <ion-badge *ngIf="unev.estado=='abierto'" color="success">{{unev.estado}}</ion-badge>
+        <ion-badge *ngIf="unev.estado=='cerrado'" color="dark">{{unev.estado}}</ion-badge>
+        <!-- <ion-icon slot="end" name="arrow-forward" class="flechader"></ion-icon> -->
+      </ion-item>
+      <ion-item-options side="end">
+          <ion-item-option color="secondary" (click)="cambiaEstadoEvento(unev)">Ver<br>Detalle</ion-item-option>
+          <ion-item-option color="tertiary" (click)="cambiaEstadoEvento(unev)">Cambiar<br>Estado</ion-item-option>
+        </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+  <!-- <ion-button expand="full" routerLink="/nuevoevento">Abre Form</ion-button> -->
+  <ion-fab vertical="bottom" horizontal="end" [routerLink]="['/nuevoevento']">
+    <ion-fab-button>
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

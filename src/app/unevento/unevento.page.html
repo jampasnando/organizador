@@ -1,0 +1,52 @@
+<ion-header>
+  <ion-toolbar mode="ios">
+      <ion-buttons slot="start">
+          <ion-back-button></ion-back-button>
+      </ion-buttons>
+    <ion-title>{{nombre}}</ion-title>
+    <ion-buttons slot="end">
+        <ion-button routerLink="/">
+          <ion-icon name="home"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-label><p class="descevento">{{desc}}</p></ion-label>
+  
+  <ion-list class="reuniones" #mislide>
+    <ion-list-header>Reuniones:</ion-list-header>
+    <ion-item-sliding *ngFor="let unareunion of reuniones,let i=index">
+      <ion-item-options side="start">
+        <ion-item-option color="danger" (click)="borraunareunion(unareunion)">
+          Borrar
+        </ion-item-option>
+        
+      </ion-item-options>
+      <ion-item-options side="end">
+          <ion-item-option color="secondary" (click)="verdetalles(unareunion)">
+              Ver<br>Detalles
+            </ion-item-option>  
+        <ion-item-option color="tertiary" (click)="cambiaEstadoReunion(unareunion)">
+              Cambiar<br>Estado
+          </ion-item-option>
+      </ion-item-options>
+      <ion-item  class="items" [routerLink]="['/unareunion',unareunion.id]">
+        <ion-label>
+          <h2>{{unareunion.nombre}}</h2>
+          <p>{{unareunion.fecha.split("-").reverse().join("-")}} - {{unareunion.horainicio}} - duración: {{unareunion.duracion}}</p>
+        </ion-label>
+        <ion-badge *ngIf="unareunion.estado=='Suspendido'" color="warning">{{unareunion.estado}}</ion-badge>
+        <ion-badge *ngIf="unareunion.estado=='Cancelado'" color="danger">{{unareunion.estado}}</ion-badge>
+        <ion-badge *ngIf="unareunion.estado=='Completado'"  color="success">{{unareunion.estado}}</ion-badge>
+        <ion-badge *ngIf="unareunion.estado!='Cancelado' && unareunion.estado!='Suspendido' && unareunion.estado!='Completado'">{{unareunion.estado}}</ion-badge>
+      </ion-item>
+  </ion-item-sliding>
+  </ion-list>
+  <ion-fab vertical="bottom" horizontal="end" [routerLink]="['/nuevareunion',id]">
+    <ion-fab-button>
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

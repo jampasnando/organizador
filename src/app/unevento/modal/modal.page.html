@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Cambiar Estado</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+<ion-list>
+    <ion-radio-group (ionSelect)="elegido($event)" >
+      <ion-list-header>
+        <ion-label>Elija el Estado</ion-label>
+      </ion-list-header>
+  
+      <ion-item>
+        <ion-label>Por realizar</ion-label>
+        <ion-radio slot="start" value="Por realizar" checked="{{porrealizar}}"></ion-radio>
+      </ion-item>
+  
+      <ion-item>
+        <ion-label>Completado</ion-label>
+        <ion-radio slot="start" value="Completado" checked="{{completado}}"></ion-radio>
+      </ion-item>
+  
+      <ion-item>
+        <ion-label>Suspendido</ion-label>
+        <ion-radio slot="start" value="Suspendido" checked="{{suspendido}}"></ion-radio>
+      </ion-item>
+      <ion-item>
+          <ion-label>Cancelado</ion-label>
+          <ion-radio slot="start" value="Cancelado" checked="{{cancelado}}"></ion-radio>
+        </ion-item>
+    </ion-radio-group>
+  </ion-list>
+  <ion-grid>
+    <ion-row>
+    <ion-col> <ion-button expand="full" color="primary" (click)="cancelaModal()">Cancelar</ion-button></ion-col>
+    <ion-col> <ion-button expand="full" color="primary" (click)="guardaCambios()">Aceptar</ion-button></ion-col>
+  </ion-row>
+  </ion-grid>
+</ion-content>
