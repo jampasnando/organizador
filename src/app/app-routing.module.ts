@@ -11,6 +11,7 @@ const routes: Routes = [
   { path: 'nuevoasistente/:idreunion/:nrotiq', loadChildren: './nuevoasistente/nuevoasistente.module#NuevoasistentePageModule' },
   { path: 'convocados/:idreunion', loadChildren: './convocados/convocados.module#ConvocadosPageModule' },
   { path: 'convocados2', loadChildren: './convocados2/convocados2.module#Convocados2PageModule' },
+  { path: 'editareunion/:idreunion', loadChildren: './unevento/editareunion/editareunion.module#EditareunionPageModule' },
   // { path: 'modalevento', loadChildren: './home/modalevento/modalevento.module#ModaleventoPageModule' },
   // { path: 'modal', loadChildren: './unevento/modal/modal.module#ModalPageModule' },
 ];

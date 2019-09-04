@@ -80,10 +80,10 @@ export class UneventoPage implements OnInit {
           reunion.estado=datos.data;
         });
       }
-      // console.log("nuevo estado",datos.data);
       this.mislide.closeSlidingItems();
     });
     await modal.present();
 
   }
+  
 }

@@ -25,7 +25,7 @@
         
       </ion-item-options>
       <ion-item-options side="end">
-          <ion-item-option color="secondary" (click)="verdetalles(unareunion)">
+          <ion-item-option color="secondary" [routerLink]="['/editareunion',unareunion.id]">
               Ver<br>Detalles
             </ion-item-option>  
         <ion-item-option color="tertiary" (click)="cambiaEstadoReunion(unareunion)">

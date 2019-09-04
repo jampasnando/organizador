@@ -125,5 +125,12 @@ export class ConsultasService {
     params.append("consulta","actualizaestadoreunion");
     return this.httpClient.post<any>(this.servidor,params);
   }
+  obtienedatosreunion(idreunion){
+    console.log("consultas service recibe idreunion: ",idreunion);
+    const params:FormData=new FormData();
+    params.append("idreunion",idreunion);
+    params.append("consulta","obtienedatosreunion");
+    return this.httpClient.post<any>(this.servidor,params);
+  }
 }
   

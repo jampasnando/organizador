@@ -16,6 +16,7 @@ export class NuevoasistentePage implements OnInit {
   tiempo:Date;
   marca:string;
   nrotiq:string;
+  nroxaenviar=0;
   public searchTerm: string = "";
   public items: any;
   listamarcas:Listamarcas[]=[];
@@ -41,6 +42,9 @@ export class NuevoasistentePage implements OnInit {
     });
     
   }
+  onViewCanLeave(){
+    console.log("onviecanleave");
+  }
   vecheck(item,unemp){
     console.log(item.srcElement);
     console.log("tiempo: ",unemp.marcador);
@@ -49,10 +53,9 @@ export class NuevoasistentePage implements OnInit {
       let horas=this.tiempo.getHours()<10?"0"+this.tiempo.getHours().toString():this.tiempo.getHours().toString();
       let mins=this.tiempo.getMinutes()<10?"0"+this.tiempo.getMinutes().toString():this.tiempo.getMinutes().toString();
       unemp.marcador=horas.concat(":").concat(mins);
-      // unemp.marcador=this.tiempo.toLocaleTimeString();
-      // unemp.marcador=this.tiempo.getHours().toString().concat(":").concat(this.tiempo.getMinutes().toString());
+      this.searchTerm="";
       this.buscador.setFocus();
-      // document.getElementById("buscador").focus;
+      this.nroxaenviar++;
     }
     else{
       this.confirmaBorrar(unemp);
@@ -77,6 +80,7 @@ export class NuevoasistentePage implements OnInit {
           handler:(blah)=>{
             aux.marcador="";
             this.buscador.setFocus();
+            this.nroxaenviar--;
           }
         }
       ]
