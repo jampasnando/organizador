@@ -4,11 +4,11 @@ import { AlertController,IonSearchbar } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
-  selector: 'app-convocados2',
-  templateUrl: './convocados2.page.html',
-  styleUrls: ['./convocados2.page.scss'],
+  selector: 'app-convocados3',
+  templateUrl: './convocados3.page.html',
+  styleUrls: ['./convocados3.page.scss'],
 })
-export class Convocados2Page implements OnInit {
+export class Convocados3Page implements OnInit {
   @ViewChild("buscador",{static: true}) private buscador:IonSearchbar;
   empleados:any;
   empleados2:any;
@@ -20,8 +20,8 @@ export class Convocados2Page implements OnInit {
   public items: any;
   unconvocado:Convocados;
   convocados:Convocados[]=[];
-  cargo:string="medium";
-  unidad:string="primary";
+  cargo:string="primary";
+  unidad:string="medium";
   nombre:string="medium";
   nroconvocados=0;
   constructor(private consultas: ConsultasService, private alertCtrl:AlertController,consulta:ConsultasService,private activatedRoute:ActivatedRoute,private router:Router) {
@@ -51,7 +51,7 @@ export class Convocados2Page implements OnInit {
             return ((x[property] === y[property]) ? 0 : ((x[property] > y[property]) ? 1 : -1));
         };
       };
-      this.empleados=datos.data.sort(sortByProperty('unidad'));
+      this.empleados=datos.data.sort(sortByProperty('cargo'));
       this.empleados2=this.empleados;
       this.buscador.setFocus();
     });
@@ -120,7 +120,7 @@ export class Convocados2Page implements OnInit {
   filterItems(searchTerm) {
     if(searchTerm!=""){
       return this.empleados2.filter(item => {
-        return item.unidad.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1;
+        return item.cargo.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1;
         // return item.empleado.toLowerCase().indexOf(searchTerm.toLowerCase()) ==0;
       });
     }

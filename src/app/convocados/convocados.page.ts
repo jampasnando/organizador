@@ -56,23 +56,23 @@ export class ConvocadosPage implements OnInit {
       this.buscador.setFocus();
     });
   }
-  obtieneEmpleados(){
-    this.consultas.consultaEmpleados(this.idreunion).subscribe((data:any)=>{
-      for (let uno of data){
-        uno.convocado='';
-        uno.employee_name=uno.employee_name.charAt(0).toUpperCase() + uno.employee_name.slice(1);
-      }
-      console.log("datos: ",data);
-      var sortByProperty = function (property) {
-        return function (x, y) {
-            return ((x[property] === y[property]) ? 0 : ((x[property] > y[property]) ? 1 : -1));
-        };
-      };
-      this.empleados=data.sort(sortByProperty('employee_name'));
-      this.empleados2=this.empleados;
-    });
-    this.buscador.setFocus();
-  }
+  // obtieneEmpleados(){
+  //   this.consultas.consultaEmpleados(this.idreunion).subscribe((data:any)=>{
+  //     for (let uno of data){
+  //       uno.convocado='';
+  //       uno.employee_name=uno.employee_name.charAt(0).toUpperCase() + uno.employee_name.slice(1);
+  //     }
+  //     console.log("datos: ",data);
+  //     var sortByProperty = function (property) {
+  //       return function (x, y) {
+  //           return ((x[property] === y[property]) ? 0 : ((x[property] > y[property]) ? 1 : -1));
+  //       };
+  //     };
+  //     this.empleados=data.sort(sortByProperty('employee_name'));
+  //     this.empleados2=this.empleados;
+  //   });
+  //   this.buscador.setFocus();
+  // }
   vecheck(item,unemp){
     console.log(item.srcElement);
     console.log("convocado: ",unemp.convocado);

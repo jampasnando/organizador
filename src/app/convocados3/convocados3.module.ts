@@ -5,14 +5,14 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { Convocados2Page } from './convocados2.page';
+import { Convocados3Page } from './convocados3.page';
 import { HttpClientModule } from '@angular/common/http';
 import { ConsultasService } from '../service/consultas.service';
 
 const routes: Routes = [
   {
     path: '',
-    component: Convocados2Page
+    component: Convocados3Page
   }
 ];
 
@@ -24,7 +24,7 @@ const routes: Routes = [
     HttpClientModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [Convocados2Page],
+  declarations: [Convocados3Page],
   providers:[ConsultasService]
 })
-export class Convocados2PageModule {}
+export class Convocados3PageModule {}

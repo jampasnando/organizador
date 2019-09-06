@@ -10,9 +10,10 @@ const routes: Routes = [
   { path: 'unareunion/:idreunion', loadChildren: './unareunion/unareunion.module#UnareunionPageModule' },
   { path: 'nuevoasistente/:idreunion/:nrotiq', loadChildren: './nuevoasistente/nuevoasistente.module#NuevoasistentePageModule' },
   { path: 'convocados/:idreunion', loadChildren: './convocados/convocados.module#ConvocadosPageModule' },
-  { path: 'convocados2', loadChildren: './convocados2/convocados2.module#Convocados2PageModule' },
+  { path: 'convocados2/:idreunion', loadChildren: './convocados2/convocados2.module#Convocados2PageModule' },
   { path: 'editareunion/:idreunion', loadChildren: './unevento/editareunion/editareunion.module#EditareunionPageModule' },
   { path: 'editaevento/:idevento', loadChildren: './home/editaevento/editaevento.module#EditaeventoPageModule' },
+  { path: 'convocados3/:idreunion', loadChildren: './convocados3/convocados3.module#Convocados3PageModule' },
   // { path: 'modalevento', loadChildren: './home/modalevento/modalevento.module#ModaleventoPageModule' },
   // { path: 'modal', loadChildren: './unevento/modal/modal.module#ModalPageModule' },
 ];
