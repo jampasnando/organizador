@@ -19,13 +19,14 @@ export class UnareunionPage implements OnInit {
   cantidad:any;
   convocados:any;
   tiqueos=[];
+  idreunion:string;
   // tiqueos:number[];
   constructor(private activatedRoute:ActivatedRoute, private consultas: ConsultasService,private alertCtrl:AlertController) { }
-  id:string;
+  
   ngOnInit() {
-    this.id=this.activatedRoute.snapshot.paramMap.get("id");
-    console.log("reunion: ",this.id);
-    this.consultas.consultaUnaReunion(this.id).subscribe((data:any)=>{
+    this.idreunion=this.activatedRoute.snapshot.paramMap.get("idreunion");
+    console.log("reunion: ",this.idreunion);
+    this.consultas.consultaUnaReunion(this.idreunion).subscribe((data:any)=>{
       this.nombrereunion=data.nombre;
       this.lugar=data.lugar;
       this.fecha=data.fecha;
@@ -37,14 +38,15 @@ export class UnareunionPage implements OnInit {
       console.log("nro tiqueos: ",data.tiqueos);
       for(let k=0;k<data.tiqueos;k++){
         this.tiqueos.push(k+1);
-        console.log("ciclo for k: ",this.tiqueos[k]);
+        // console.log("ciclo for k: ",this.tiqueos[k]);
       }
       console.log("datosunareunion: ",data);
     });
   }
   ionViewWillEnter(){
-    this.consultas.consultaConvocados(this.id).subscribe((data:any)=>{
-      console.log(data);
+    console.log("idreunion enviado a la bd: ",this.idreunion);
+    this.consultas.consultaConvocados(this.idreunion).subscribe((data:any)=>{
+      // console.log(data);
       this.convocados=data;
       this.cantidad=data.length;
       for(let xx of this.convocados){
@@ -68,7 +70,7 @@ export class UnareunionPage implements OnInit {
         {
           text:"Aceptar",
           handler:(blah)=>{
-            this.consultas.borrarConvocado(uno.ci,this.id).subscribe((data)=>{
+            this.consultas.borrarConvocado(uno.ci,this.idreunion).subscribe((data)=>{
               // location.reload();
               let index=this.convocados.indexOf(uno);
               this.convocados.splice(index,1);

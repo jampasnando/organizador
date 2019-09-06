@@ -1,9 +1,46 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>convocados2</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content>
-
-</ion-content>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+      <ion-searchbar [(ngModel)]="searchTerm" (ionChange)="setFilteredItems()" #buscador></ion-searchbar>
+      
+      <ion-buttons slot="end">
+        <div class="filtros">
+          <ion-button size="small" color="{{unidad}}">U</ion-button>
+          <ion-button size="small" (click)="alert('cargo')" color="{{cargo}}">C</ion-button>
+          <ion-button size="small" color="{{nombre}}">N</ion-button>  
+        </div>
+        <ion-button routerLink="/">
+            <ion-icon name="home"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+  
+  <ion-content>
+      <!-- <ion-button size="small">N</ion-button> -->
+      <ion-virtual-scroll [items]="empleados">
+          <ion-item-sliding *virtualItem="let unemp" (click)="vecheck($event,unemp)">
+            <ion-item-options>
+              <ion-item-option (click)="comenta()">Comentar</ion-item-option>
+            </ion-item-options>
+            <ion-item>
+              <ion-icon name="contact" slot="start" color="medium"></ion-icon>
+              <ion-label>
+                <h4>{{unemp.unidad}}</h4>
+                <h6>{{unemp.cargo}}</h6>
+                <p> {{unemp.empleado}}</p>
+               
+              </ion-label>
+              <ion-badge *ngIf="unemp.convocado!=''" color="warning">{{unemp.convocado}}</ion-badge>
+            </ion-item>
+          </ion-item-sliding>  
+        </ion-virtual-scroll>
+    
+  </ion-content>
+  <ion-footer>
+    <ion-toolbar>
+      <ion-button expand="full" (click)="guardaconvocados()">Guardar Convocados ({{nroconvocados}})</ion-button>
+    </ion-toolbar>
+  </ion-footer>

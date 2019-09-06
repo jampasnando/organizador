@@ -12,7 +12,7 @@ export class ConvocadosPage implements OnInit {
   @ViewChild("buscador",{static: true}) private buscador:IonSearchbar;
   empleados:any;
   empleados2:any;
-  convocado:string;
+  // convocado:string;
   yaconvocados:any;
   marca:string;
   idreunion:string;
@@ -20,6 +20,10 @@ export class ConvocadosPage implements OnInit {
   public items: any;
   unconvocado:Convocados;
   convocados:Convocados[]=[];
+  cargo:string="medium";
+  unidad:string="medium";
+  nombre:string="primary";
+  nroconvocados=0;
   constructor(private consultas: ConsultasService, private alertCtrl:AlertController,consulta:ConsultasService,private activatedRoute:ActivatedRoute,private router:Router) {
     
    }
@@ -31,6 +35,28 @@ export class ConvocadosPage implements OnInit {
   ionViewWillEnter(){
     this.convocados=[];
     console.log("enviara idreunion a consultaempleados: ",this.idreunion);
+    // this.obtieneEmpleados();
+    this.obtieneFuncionarios();
+  }
+  obtieneFuncionarios(){
+    this.consultas.obtieneFuncionarios().subscribe((datos:any)=>{
+      console.log("funcionarios: ",datos.data);
+      for (let uno of datos.data){
+        uno.convocado='';
+        uno.empleado=uno.empleado.trim();
+      }
+      console.log("func mas campo convocado: ",datos.data);
+      var sortByProperty = function (property) {
+        return function (x, y) {
+            return ((x[property] === y[property]) ? 0 : ((x[property] > y[property]) ? 1 : -1));
+        };
+      };
+      this.empleados=datos.data.sort(sortByProperty('empleado'));
+      this.empleados2=this.empleados;
+      this.buscador.setFocus();
+    });
+  }
+  obtieneEmpleados(){
     this.consultas.consultaEmpleados(this.idreunion).subscribe((data:any)=>{
       for (let uno of data){
         uno.convocado='';
@@ -51,8 +77,9 @@ export class ConvocadosPage implements OnInit {
     console.log(item.srcElement);
     console.log("convocado: ",unemp.convocado);
     if(unemp.convocado==""){
-      this.convocado="Convocar";
-      unemp.convocado=this.convocado;
+      // this.convocado="Convocar";
+      unemp.convocado="Convocar";
+      this.nroconvocados++;
       this.buscador.setFocus();
       // document.getElementById("buscador").focus;
     }
@@ -64,7 +91,7 @@ export class ConvocadosPage implements OnInit {
   async confirmaBorrar(aux){
     const alerta=await this.alertCtrl.create({
       header:"Está seguro de Borrar la convocatoria a:",
-      subHeader:aux.employee_name.concat("???"),
+      subHeader:aux.empleado.concat("???"),
       message:"Aprete Cancelar si no está seguro",
       buttons:[
         {
@@ -78,6 +105,7 @@ export class ConvocadosPage implements OnInit {
           cssClass:"peligro",
           handler:(blah)=>{
             aux.convocado="";
+            this.nroconvocados--;
             this.buscador.setFocus();
           }
         }
@@ -92,8 +120,8 @@ export class ConvocadosPage implements OnInit {
   filterItems(searchTerm) {
     if(searchTerm!=""){
       return this.empleados2.filter(item => {
-        // return item.employee_name.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1;
-        return item.employee_name.toLowerCase().indexOf(searchTerm.toLowerCase()) ==0;
+        return item.empleado.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1;
+        // return item.empleado.toLowerCase().indexOf(searchTerm.toLowerCase()) ==0;
       });
     }
     else {
@@ -101,12 +129,18 @@ export class ConvocadosPage implements OnInit {
     }
   }
   guardaconvocados(){
+    this.convocados=[];
+    this.searchTerm="";
+    this.filterItems("");
     for(let unemp of this.empleados){
       if(unemp.convocado!=""){
-        console.log("unconvocado: ",unemp.employee_name);
+        console.log("unconvocado: ",unemp.empleado);
         this.unconvocado={
           "ci":unemp.ci,
-          "nombre":unemp.employee_name
+          "item":unemp.item,
+          "nombre":unemp.empleado,
+          "cargo":unemp.cargo,
+          "unidad":unemp.unidad
         }
         console.log("unconvocado: ",this.unconvocado);
         this.convocados.push(this.unconvocado);
@@ -124,5 +158,8 @@ export class ConvocadosPage implements OnInit {
 }
 interface Convocados{
   ci:string;
+  item:string;
   nombre:string;
+  cargo:string;
+  unidad:string;
 }

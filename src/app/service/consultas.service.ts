@@ -7,6 +7,7 @@ import { GLOBAL } from './global';
 })
 export class ConsultasService {
   servidor:string=GLOBAL.urlserver;
+  urlfunc:string=GLOBAL.urlfunc;
   constructor(private httpClient:HttpClient) { }
   enviaFormNuevoEv(datos:any):Observable<any>{
     // console.log("recibido en consultas: ",datos);
@@ -131,6 +132,44 @@ export class ConsultasService {
     params.append("idreunion",idreunion);
     params.append("consulta","obtienedatosreunion");
     return this.httpClient.post<any>(this.servidor,params);
+  }
+  actualizaDatosReunion(formu,fechax,horax,idreunion){
+    const params:FormData=new FormData();
+    params.append("nombre",formu.value.nombre);
+    params.append("lugar",formu.value.lugar);
+    params.append("fecha",fechax);
+    params.append("horainicio",horax);
+    params.append("duracion",formu.value.duracion);
+    params.append("tiqueos",formu.value.tiqueos);
+    params.append("instrucciones",formu.value.instrucciones);
+    params.append("docs",formu.value.docs);
+    params.append("estado",formu.value.estado);
+    params.append("idreunion",idreunion);
+    params.append("consulta","actualizadatosreunion");
+
+    return this.httpClient.post<any>(this.servidor,params);
+  }
+  obtieneDatosEvento(idevento){
+    console.log("obtendra evento con id: ",idevento);
+    const params:FormData=new FormData();
+    params.append("idevento",idevento);
+    params.append("consulta","obtienedatosevento");
+    return this.httpClient.post<any>(this.servidor,params);
+  }
+  actualizaDatosEvento(formu,idevento){
+    const params:FormData=new FormData();
+    params.append("nombre",formu.value.nombre);
+    params.append("descripcion",formu.value.descripcion);
+    params.append("estado",formu.value.estado);
+    params.append("idevento",idevento);
+    params.append("consulta","actualizadatosevento");
+    return this.httpClient.post<any>(this.servidor,params);
+  }
+  obtieneFuncionarios(){
+    const params:FormData=new FormData();
+    params.append("tipo","N");
+    params.append("dato",'');
+    return this.httpClient.post<any>(this.urlfunc,params);
   }
 }
   

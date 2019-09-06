@@ -1,18 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { Convocados2Page } from './convocados2.page';
+import { EditaeventoPage } from './editaevento.page';
 import { HttpClientModule } from '@angular/common/http';
-import { ConsultasService } from '../service/consultas.service';
+import { ConsultasService } from 'src/app/service/consultas.service';
 
 const routes: Routes = [
   {
     path: '',
-    component: Convocados2Page
+    component: EditaeventoPage
   }
 ];
 
@@ -21,10 +21,11 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
+    ReactiveFormsModule,
     HttpClientModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [Convocados2Page],
+  declarations: [EditaeventoPage],
   providers:[ConsultasService]
 })
-export class ConvocadosPageModule {}
+export class EditaeventoPageModule {}

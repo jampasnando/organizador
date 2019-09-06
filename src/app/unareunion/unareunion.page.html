@@ -25,7 +25,7 @@
         </ion-label>
         <div class="tiqueo">
           Tik:
-          <ion-button *ngFor="let untiq of tiqueos" slot="end" size="small" [routerLink]="['/nuevoasistente',id,untiq]" >{{untiq}}</ion-button>
+          <ion-button *ngFor="let untiq of tiqueos" slot="end" size="small" [routerLink]="['/nuevoasistente',idreunion,untiq]" >{{untiq}}</ion-button>
           
         </div>
       
@@ -42,18 +42,21 @@
           </ion-item-option>
       </ion-item-options>
       <ion-item >
-        <ion-icon name="contact" color="light-shade" slot="start" ></ion-icon>
+        <ion-icon name="contact" color="medium" slot="start" ></ion-icon>
         <ion-label>
-          <h4>{{unconvocado.nombre}}</h4>
-        <p>
-          
+          <h4>{{unconvocado.unidad}}</h4>
+          <h6>{{unconvocado.cargo}}</h6>
+          <h5>{{unconvocado.nombre}}</h5>
+        <h4>
           <span *ngFor="let xx of unconvocado.hora_registro | keyvalue">{{xx.value}}</span>
-        </p>
+        </h4>
+        <!-- <h4>{{unconvocado.cargo}}</h4> -->
         </ion-label>
+        <!-- <ion-badge *ngFor="let xx of unconvocado.hora_registro | keyvalue">{{xx.value}}</ion-badge> -->
       </ion-item>
     </ion-item-sliding>
   </ion-list>
-  <ion-fab vertical="bottom" horizontal="end" [routerLink]="['/convocados',id]">
+  <ion-fab vertical="bottom" horizontal="end" [routerLink]="['/convocados',idreunion]">
     <ion-fab-button>
       <ion-icon name="person-add"></ion-icon>
     </ion-fab-button>
