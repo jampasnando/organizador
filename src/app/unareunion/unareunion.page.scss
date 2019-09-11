@@ -10,7 +10,7 @@
 ion-list-header{
     background: khaki;
 }
-ion-item h4 span{
+.conhora{
     background:aliceblue;
     border-radius: 0.3em 0.3em;
     color:lightseagreen;
@@ -18,13 +18,21 @@ ion-item h4 span{
     margin: 0 1px;
     padding: 0 4px;
 }
-h6{
+.sinhora{
+    background:lightcoral;
+    border-radius: 0.3em 0.3em;
+    color:lightseagreen;
+    // border:1px solid lightgray;
+    margin: 0 1px;
+    padding: 0 4px;
+}
+h6,h5{
     font-size: 0.6em;
 }
-h5{
-    color:lightseagreen;
-    font-size: 0.8em;
-}
+// h5{
+//     color:lightseagreen;
+//     font-size: 0.8em;
+// }
 ion-content{
     height: 100%;
 }

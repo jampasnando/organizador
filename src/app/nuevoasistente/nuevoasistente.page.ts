@@ -31,7 +31,12 @@ export class NuevoasistentePage implements OnInit {
 
   ngOnInit() {
     console.log("tiqueador",this.tiqueador);
-    this.idreunion=this.activatedRoute.snapshot.paramMap.get("idreunion");this.nrotiq=this.activatedRoute.snapshot.paramMap.get("nrotiq");
+    this.idreunion=this.activatedRoute.snapshot.paramMap.get("idreunion");
+    this.nrotiq=this.activatedRoute.snapshot.paramMap.get("nrotiq");
+    this.consultaConvocados();
+    
+  }
+  consultaConvocados(){
     this.consultas.consultaconvocadostiqueo(this.idreunion,this.nrotiq).subscribe((data:any)=>{
       // console.log("datostiqueo: ",data);
       var sortByProperty = function (property) {
@@ -46,7 +51,6 @@ export class NuevoasistentePage implements OnInit {
       }
       this.empleados2=this.empleados;
     });
-    
   }
   onViewCanLeave(){
     console.log("onviecanleave");
@@ -115,26 +119,29 @@ export class NuevoasistentePage implements OnInit {
       return this.empleados2;
     }
   }
-  guardatiqueos(){
+  async guardatiqueos(){
+    const alertax=await this.alertCtrl.create({
+      header:"Enviando...",
+    });
+    alertax.present();
+    
     for(let yy of this.empleados){
       if(yy.marcador!=""){
         for(let zz in yy.hora_registro){
           var indice="t".concat(this.nrotiq);
           if(zz==indice){
             yy.hora_registro[zz]=yy.marcador;
-            this.listamarcas.push({ci:yy.ci,nuevamarca:yy.hora_registro});
+            this.listamarcas.push({ci:yy.ci,nuevamarca:yy.hora_registro,indicex:this.empleados.indexOf(yy)});
           }
           // console.log(yy.marcador, " ciclo for zz: ", yy.hora_registro);
         }
         
       }
     }
-    // console.log("listamarcadores: ",this.listamarcas);
     this.consultas.envialistamarcas(this.listamarcas,this.idreunion,this.tiqueador,this.nrotiq).subscribe((data:any)=>{
-      // console.log("listamarcas guardado en bd",data);
-      let url="/unareunion/".concat(this.idreunion);
-      this.router.urlUpdateStrategy="eager";
-      this.router.navigateByUrl(url);
+      this.consultaConvocados();
+      this.nroxaenviar=0;
+      this.alertCtrl.dismiss();
     });
   }
   criterio(campo){
@@ -165,4 +172,5 @@ export class NuevoasistentePage implements OnInit {
 interface Listamarcas{
   ci:string;
   nuevamarca:string;
+  indicex:number;
 }

@@ -44,11 +44,14 @@
       <ion-item >
         <ion-icon name="contact" color="medium" slot="start" ></ion-icon>
         <ion-label>
-          <h4>{{unconvocado.unidad}}</h4>
-          <h6>{{unconvocado.cargo}}</h6>
-          <h5>{{unconvocado.nombre}}</h5>
+          <h4>{{unconvocado.nombre}}</h4>
+          <h6>{{unconvocado.unidad}}</h6>
+          <h5>{{unconvocado.cargo}}</h5>
         <h4>
-          <span *ngFor="let xx of unconvocado.hora_registro | keyvalue">{{xx.value}}</span>
+          <span *ngFor="let xx of unconvocado.hora_registro | keyvalue">
+            <span class="conhora" *ngIf="xx.value!=''">{{xx.value}}</span>
+            <span class="sinhora" *ngIf="xx.value==''">{{xx.value}}</span>
+          </span>
         </h4>
         <!-- <h4>{{unconvocado.cargo}}</h4> -->
         </ion-label>

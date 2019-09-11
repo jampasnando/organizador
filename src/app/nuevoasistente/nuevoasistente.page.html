@@ -20,14 +20,15 @@
 <ion-content>
     <ion-searchbar [(ngModel)]="searchTerm" (ionChange)="setFilteredItems()" #buscador></ion-searchbar>
     <ion-virtual-scroll [items]="empleados ">
-        <ion-item-sliding *virtualItem="let unemp" (click)="vecheck($event,unemp)">
+        <ion-item-sliding *virtualItem="let unemp" >
           <ion-item>
             <ion-label>
               <h4>{{unemp.nombre}}</h4>
               <p>item: {{unemp.item}} | ci: {{unemp.ci}}</p>
             </ion-label>
-            <ion-badge *ngIf="unemp.marcador!=''" color="secondary">{{unemp.marcador}}</ion-badge>
-
+            <!-- <ion-badge *ngIf="unemp.marcador!=''" color="secondary">{{unemp.marcador}}</ion-badge> -->
+            <div class="divmarcador" slot="end" (click)="vecheck($event,unemp)" *ngIf="unemp.marcador==''">{{unemp.marcador}}</div>
+            <div class="divmarcador fondomarcador" slot="end" (click)="vecheck($event,unemp)" *ngIf="unemp.marcador!=''">{{unemp.marcador}}</div>
           </ion-item>
         </ion-item-sliding>  
     </ion-virtual-scroll>
