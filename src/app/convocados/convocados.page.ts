@@ -53,7 +53,7 @@ export class ConvocadosPage implements OnInit {
       };
       this.empleados=datos.data.sort(sortByProperty('empleado'));
       this.empleados2=this.empleados;
-      this.buscador.setFocus();
+      // this.buscador.setFocus();
     });
   }
   // obtieneEmpleados(){
@@ -80,12 +80,14 @@ export class ConvocadosPage implements OnInit {
       // this.convocado="Convocar";
       unemp.convocado="Convocar";
       this.nroconvocados++;
-      this.buscador.setFocus();
+      // this.buscador.setFocus();
       // document.getElementById("buscador").focus;
     }
     else{
-      this.confirmaBorrar(unemp);
-      
+      if(unemp.convocado!="yaconvocado"){
+        unemp.convocado="";
+        this.nroconvocados--;
+      }
     }
   }
   async confirmaBorrar(aux){

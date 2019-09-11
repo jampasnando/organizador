@@ -50,7 +50,9 @@ export class NuevareunionPage implements OnInit {
   }
   enviaFormNuevaReunion(){
     console.log(this.formulario);
-    let fechax=this.formulario.value.fecha.split("T");
+    console.log("fecha: ",this.formulario.value.fecha);
+    let vectorfecha=this.formulario.value.fecha.split("T");
+    let fechax=vectorfecha[0];
     let aux=this.formulario.value.horainicio.split("T");
     let horax=aux[1].substring(0,5);
     console.log(horax);

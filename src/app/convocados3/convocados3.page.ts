@@ -36,16 +36,25 @@ export class Convocados3Page implements OnInit {
     this.convocados=[];
     console.log("enviara idreunion a consultaempleados: ",this.idreunion);
     // this.obtieneEmpleados();
+    this.nroconvocados=0;
     this.obtieneFuncionarios();
   }
   obtieneFuncionarios(){
     this.consultas.obtieneFuncionarios().subscribe((datos:any)=>{
-      console.log("funcionarios: ",datos.data);
-      for (let uno of datos.data){
-        uno.convocado='';
-        uno.empleado=uno.empleado.trim();
-      }
-      console.log("func mas campo convocado: ",datos.data);
+      // console.log("funcionarios: ",datos.data);
+      
+      this.consultas.consultaConvocados(this.idreunion).subscribe((dataconv:any)=>{
+        this.convocados=dataconv;
+        for (let uno of datos.data){
+          uno.convocado="";
+          uno.cargo=uno.cargo.trim();
+
+          for(let xx of this.convocados){
+            if(uno.ci==xx.ci) {uno.convocado='yaconvocado';break;}
+          }
+          
+        }
+      });
       var sortByProperty = function (property) {
         return function (x, y) {
             return ((x[property] === y[property]) ? 0 : ((x[property] > y[property]) ? 1 : -1));
@@ -53,39 +62,43 @@ export class Convocados3Page implements OnInit {
       };
       this.empleados=datos.data.sort(sortByProperty('cargo'));
       this.empleados2=this.empleados;
-      this.buscador.setFocus();
+      // this.buscador.setFocus();
     });
   }
-  // obtieneEmpleados(){
-  //   this.consultas.consultaEmpleados(this.idreunion).subscribe((data:any)=>{
-  //     for (let uno of data){
-  //       uno.convocado='';
-  //       uno.employee_name=uno.employee_name.charAt(0).toUpperCase() + uno.employee_name.slice(1);
-  //     }
-  //     console.log("datos: ",data);
-  //     var sortByProperty = function (property) {
-  //       return function (x, y) {
-  //           return ((x[property] === y[property]) ? 0 : ((x[property] > y[property]) ? 1 : -1));
-  //       };
-  //     };
-  //     this.empleados=data.sort(sortByProperty('employee_name'));
-  //     this.empleados2=this.empleados;
-  //   });
-  //   this.buscador.setFocus();
-  // }
   vecheck(item,unemp){
     console.log(item.srcElement);
     console.log("convocado: ",unemp.convocado);
     if(unemp.convocado==""){
-      // this.convocado="Convocar";
       unemp.convocado="Convocar";
       this.nroconvocados++;
-      this.buscador.setFocus();
-      // document.getElementById("buscador").focus;
     }
     else{
-      this.confirmaBorrar(unemp);
-      
+      if(unemp.convocado!="yaconvocado"){
+        unemp.convocado="";
+        this.nroconvocados--;
+      }
+    }
+    // this.buscador.setFocus();
+  }
+  chequea(evento,cargo){
+    console.log("evento: ",evento.detail.checked);
+    console.log("cagor: ",cargo);
+    if(evento.detail.checked){
+      for(let unempx of this.empleados){
+        if(unempx.cargo==cargo && unempx.convocado==""){
+          unempx.convocado="Convocar";
+          this.nroconvocados++;
+        }
+      }
+     
+    }
+    else{
+      for(let unempx of this.empleados){
+        if(unempx.cargo==cargo && unempx.convocado=="Convocar"){
+          unempx.convocado="";
+          this.nroconvocados--;
+        }
+      }
     }
   }
   async confirmaBorrar(aux){
@@ -133,8 +146,8 @@ export class Convocados3Page implements OnInit {
     this.searchTerm="";
     this.filterItems("");
     for(let unemp of this.empleados){
-      if(unemp.convocado!=""){
-        console.log("unconvocado: ",unemp.empleado);
+      if(unemp.convocado=="Convocar"){
+        // console.log("unconvocado: ",unemp.empleado);
         this.unconvocado={
           "ci":unemp.ci,
           "item":unemp.item,
@@ -142,13 +155,13 @@ export class Convocados3Page implements OnInit {
           "cargo":unemp.cargo,
           "unidad":unemp.unidad
         }
-        console.log("unconvocado: ",this.unconvocado);
+        // console.log("unconvocado: ",this.unconvocado);
         this.convocados.push(this.unconvocado);
       }
     }
-    console.log("convocados: ",this.convocados);
+    // console.log("convocados: ",this.convocados);
     this.consultas.enviaConvocados(this.convocados,this.idreunion).subscribe((data:any)=>{
-      console.log("desde el server: ",data);
+      // console.log("desde el server: ",data);
       let url="/unareunion/".concat(this.idreunion);
       this.router.urlUpdateStrategy="eager";
       this.router.navigateByUrl(url);

@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ConsultasService } from '../service/consultas.service';
 import { AlertController,IonSearchbar } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
-
+import { GLOBAL } from '../service/global';
 @Component({
   selector: 'app-nuevoasistente',
   templateUrl: './nuevoasistente.page.html',
@@ -20,14 +20,20 @@ export class NuevoasistentePage implements OnInit {
   public searchTerm: string = "";
   public items: any;
   listamarcas:Listamarcas[]=[];
+  pornombre="primary";
+  poritem="medium";
+  porci="medium";
+  activo="nombre";
+  tiqueador=GLOBAL.usuarionombre;
   constructor(private consultas: ConsultasService, private alertCtrl:AlertController, private activatedRoute:ActivatedRoute,private router:Router) {
     
    }
 
   ngOnInit() {
+    console.log("tiqueador",this.tiqueador);
     this.idreunion=this.activatedRoute.snapshot.paramMap.get("idreunion");this.nrotiq=this.activatedRoute.snapshot.paramMap.get("nrotiq");
     this.consultas.consultaconvocadostiqueo(this.idreunion,this.nrotiq).subscribe((data:any)=>{
-      console.log("datostiqueo: ",data);
+      // console.log("datostiqueo: ",data);
       var sortByProperty = function (property) {
         return function (x, y) {
             return ((x[property] === y[property]) ? 0 : ((x[property] > y[property]) ? 1 : -1));
@@ -53,8 +59,8 @@ export class NuevoasistentePage implements OnInit {
       let horas=this.tiempo.getHours()<10?"0"+this.tiempo.getHours().toString():this.tiempo.getHours().toString();
       let mins=this.tiempo.getMinutes()<10?"0"+this.tiempo.getMinutes().toString():this.tiempo.getMinutes().toString();
       unemp.marcador=horas.concat(":").concat(mins);
-      this.searchTerm="";
-      this.buscador.setFocus();
+      // this.searchTerm="";
+      // this.buscador.setFocus();
       this.nroxaenviar++;
     }
     else{
@@ -94,7 +100,15 @@ export class NuevoasistentePage implements OnInit {
   filterItems(searchTerm) {
     if(searchTerm!=""){
       return this.empleados2.filter(item => {
+       if(this.activo=="nombre"){
         return item.nombre.toLowerCase().indexOf(searchTerm.toLowerCase()) ==0;
+       }
+       if(this.activo=="item"){
+        return item.item.toLowerCase().indexOf(searchTerm.toLowerCase()) ==0;
+       }
+       if(this.activo=="ci"){
+        return item.ci.toLowerCase().indexOf(searchTerm.toLowerCase()) ==0;
+       }
       });
     }
     else {
@@ -115,13 +129,37 @@ export class NuevoasistentePage implements OnInit {
         
       }
     }
-    console.log("listamarcadores: ",this.listamarcas);
-    this.consultas.envialistamarcas(this.listamarcas,this.idreunion).subscribe((data:any)=>{
-      console.log("listamarcas guardado en bd",data);
+    // console.log("listamarcadores: ",this.listamarcas);
+    this.consultas.envialistamarcas(this.listamarcas,this.idreunion,this.tiqueador,this.nrotiq).subscribe((data:any)=>{
+      // console.log("listamarcas guardado en bd",data);
       let url="/unareunion/".concat(this.idreunion);
       this.router.urlUpdateStrategy="eager";
       this.router.navigateByUrl(url);
     });
+  }
+  criterio(campo){
+    console.log("campo: ",campo);
+    if(campo=="nombre"){
+      this.pornombre="primary";
+      this.poritem="medium";
+      this.porci="medium";
+      this.activo="nombre";
+    }
+    if(campo=="item"){
+      this.pornombre="medium";
+      this.poritem="primary";
+      this.porci="medium";
+      this.activo="item";
+    }
+    if(campo=="ci"){
+      this.pornombre="medium";
+      this.poritem="medium";
+      this.porci="primary";
+      this.activo="ci";
+    }
+    this.searchTerm="";
+    this.buscador.setFocus();
+
   }
 }
 interface Listamarcas{

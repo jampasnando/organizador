@@ -5,7 +5,7 @@
       </ion-buttons>
     <ion-title>{{nombre}}</ion-title>
     <ion-buttons slot="end">
-        <ion-button routerLink="/">
+        <ion-button routerLink="/home">
           <ion-icon name="home"></ion-icon>
         </ion-button>
       </ion-buttons>
@@ -18,13 +18,16 @@
   <ion-list class="reuniones" #mislide>
     <ion-list-header>Reuniones:</ion-list-header>
     <ion-item-sliding *ngFor="let unareunion of reuniones,let i=index">
-      <ion-item-options side="start">
+      <ion-item-options side="start" *ngIf="elrol=='administrador'">
+          <ion-item-option color="primary" (click)="reportecsv(unareunion.id)">
+              Reporte<br>CSV
+            </ion-item-option>
         <ion-item-option color="danger" (click)="borraunareunion(unareunion)">
           Borrar
         </ion-item-option>
         
       </ion-item-options>
-      <ion-item-options side="end">
+      <ion-item-options side="end" *ngIf="elrol=='administrador'">
           <ion-item-option color="secondary" [routerLink]="['/editareunion',unareunion.id]">
               Ver<br>Detalles
             </ion-item-option>  
@@ -32,7 +35,17 @@
               Cambiar<br>Estado
           </ion-item-option>
       </ion-item-options>
-      <ion-item  class="items" [routerLink]="['/unareunion',unareunion.id]">
+      <ion-item  class="items" [routerLink]="['/unareunion',unareunion.id]" *ngIf="unareunion.diferencia<=0">
+        <ion-label>
+          <h2>{{unareunion.nombre}}</h2>
+          <p>{{unareunion.fecha.split("-").reverse().join("-")}} - {{unareunion.horainicio}} - duración: {{unareunion.duracion}}</p>
+        </ion-label>
+        <ion-badge *ngIf="unareunion.estado=='Suspendido'" color="warning">{{unareunion.estado}}</ion-badge>
+        <ion-badge *ngIf="unareunion.estado=='Cancelado'" color="danger">{{unareunion.estado}}</ion-badge>
+        <ion-badge *ngIf="unareunion.estado=='Completado'"  color="success">{{unareunion.estado}}</ion-badge>
+        <ion-badge *ngIf="unareunion.estado!='Cancelado' && unareunion.estado!='Suspendido' && unareunion.estado!='Completado'">{{unareunion.estado}}</ion-badge>
+      </ion-item>
+      <ion-item  class="items" [routerLink]="['/unareunion',unareunion.id]" *ngIf="unareunion.diferencia>0" color="light">
         <ion-label>
           <h2>{{unareunion.nombre}}</h2>
           <p>{{unareunion.fecha.split("-").reverse().join("-")}} - {{unareunion.horainicio}} - duración: {{unareunion.duracion}}</p>
@@ -44,7 +57,7 @@
       </ion-item>
   </ion-item-sliding>
   </ion-list>
-  <ion-fab vertical="bottom" horizontal="end" [routerLink]="['/nuevareunion',id]">
+  <ion-fab vertical="bottom" horizontal="end" [routerLink]="['/nuevareunion',id]" *ngIf="elrol=='administrador'">
     <ion-fab-button>
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>

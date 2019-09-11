@@ -9,6 +9,8 @@ import { UneventoPage } from './unevento.page';
 import { ConsultasService } from '../service/consultas.service';
 import { HttpClientModule } from '@angular/common/http';
 import { ModalPage } from './modal/modal.page';
+import { File } from '@ionic-native/file/ngx';
+import { FileTransfer } from '@ionic-native/file-transfer/ngx';
 
 const routes: Routes = [
   {
@@ -26,7 +28,7 @@ const routes: Routes = [
     RouterModule.forChild(routes)
   ],
   declarations: [UneventoPage,ModalPage],
-  providers:[ConsultasService,ModalPage],
+  providers:[ConsultasService,ModalPage,File,FileTransfer],
   entryComponents:[ModalPage]
 })
 export class UneventoPageModule {}

@@ -92,10 +92,12 @@ export class ConsultasService {
     params.append("consulta","borraconvocado");
     return this.httpClient.post<any>(this.servidor,params);
   }
-  envialistamarcas(listamarcas,idreunion){
+  envialistamarcas(listamarcas,idreunion,tiqueador,nrotiq){
     const params:FormData=new FormData();
     params.append("lista",JSON.stringify(listamarcas));
     params.append("idreunion",idreunion);
+    params.append("tiqueador",tiqueador);
+    params.append("nrotiq",nrotiq);
     params.append("consulta","recibelistamarcas");
     return this.httpClient.post<any>(this.servidor,params);
   }
@@ -165,11 +167,46 @@ export class ConsultasService {
     params.append("consulta","actualizadatosevento");
     return this.httpClient.post<any>(this.servidor,params);
   }
+  
   obtieneFuncionarios(){
     const params:FormData=new FormData();
     params.append("tipo","N");
     params.append("dato",'');
+    params.append("consulta","obtienefuncionarios");
     return this.httpClient.post<any>(this.urlfunc,params);
+  }
+  consultaCredenciales(password){
+    const params:FormData=new FormData();
+    params.append("pass",password);
+    params.append("consulta","consultacredenciales");
+    return this.httpClient.post<any>(this.servidor,params);
+  }
+  consultaAdmins(){
+    const params:FormData=new FormData();
+    params.append("consulta","consultadmins")
+    return this.httpClient.post<any>(this.servidor,params);
+  }
+  enviaNuevoUsr(formulario){
+    const params:FormData=new FormData();
+    params.append("nombre",formulario.value.nombre);
+    params.append("rol",formulario.value.rol);
+    params.append("ci",formulario.value.ci);
+    params.append("password",formulario.value.password);
+    params.append("consulta","guardanuevousr");
+    return this.httpClient.post<any>(this.servidor,params);
+  }
+  borraUsr(idusr){
+    const params:FormData=new FormData();
+    params.append("idusr",idusr);
+    params.append("consulta","borrausr");
+    return this.httpClient.post<any>(this.servidor,params);
+  }
+  actualizaComentario(comentario,idconvocado){
+    const params:FormData=new FormData();
+    params.append("comentario",comentario);
+    params.append("idconvocado",idconvocado);
+    params.append("consulta","actualizacomentario");
+    return this.httpClient.post<any>(this.servidor,params);
   }
 }
   

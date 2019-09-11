@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>comentar</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item>
+      <ion-item>
+      <ion-label position="floating">Comentario para: {{nombre}}</ion-label>
+        <ion-textarea [(ngModel)]="comentario" autocapitalize="sentences"></ion-textarea>
+      </ion-item>
+    </ion-item>
+  </ion-list>
+</ion-content>
+<ion-footer>
+  <ion-button (click)="guardarComentario()" expand="full">Guardar Comentario</ion-button>
+  <ion-button (click)="cancelaModal()" expand="full" color="danger">Cancelar</ion-button>
+
+</ion-footer>

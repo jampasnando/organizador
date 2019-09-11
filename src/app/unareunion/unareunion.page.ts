@@ -1,7 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ConsultasService } from '../service/consultas.service';
-import { AlertController, IonList } from '@ionic/angular';
+import { AlertController, IonList, ModalController } from '@ionic/angular';
+import { ComentarPage } from './comentar/comentar.page';
+import { GLOBAL } from '../service/global';
 @Component({
   selector: 'app-unareunion',
   templateUrl: './unareunion.page.html',
@@ -20,8 +22,9 @@ export class UnareunionPage implements OnInit {
   convocados:any;
   tiqueos=[];
   idreunion:string;
+  elrol=GLOBAL.usuariorol;
   // tiqueos:number[];
-  constructor(private activatedRoute:ActivatedRoute, private consultas: ConsultasService,private alertCtrl:AlertController) { }
+  constructor(private activatedRoute:ActivatedRoute, private consultas: ConsultasService,private alertCtrl:AlertController,private modalCtrl:ModalController) { }
   
   ngOnInit() {
     this.idreunion=this.activatedRoute.snapshot.paramMap.get("idreunion");
@@ -81,5 +84,25 @@ export class UnareunionPage implements OnInit {
     });
     alerta.present();
   }
-  
+  async comentaConvocado(unconvocado){
+    const modal= await this.modalCtrl.create({
+      component:ComentarPage,
+      componentProps:{
+        nombre:unconvocado.nombre,
+        cargo:unconvocado.cargo,
+        unidad:unconvocado.unidad
+      }
+    });
+    modal.onDidDismiss().then((dato)=>{
+      console.log("comentario: ",dato);
+      let coment=GLOBAL.usuarionombre.concat(": ").concat(dato.data);
+      if(dato.data!="cancel"){
+        this.consultas.actualizaComentario(coment,unconvocado.id).subscribe((dato:any)=>{
+          alert("Comentario Guardado");
+        });
+      }
+      this.mislide.closeSlidingItems();
+    });
+    await modal.present();
+  }
 }

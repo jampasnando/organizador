@@ -2,7 +2,8 @@ import { Component, ViewChild} from '@angular/core';
 import { ConsultasService } from '../service/consultas.service';
 import { AlertController, IonList, ModalController} from '@ionic/angular';
 import { ModaleventoPage } from './modalevento/modalevento.page';
-
+import { AdminPage } from './admin/admin.page';
+import { GLOBAL } from '../service/global';
 
 @Component({
   selector: 'app-home',
@@ -11,6 +12,7 @@ import { ModaleventoPage } from './modalevento/modalevento.page';
 })
 export class HomePage {
   datos:any;
+  elrol=GLOBAL.usuariorol;
   @ViewChild("mislide",{static:false}) mislide:IonList;
   constructor(private consulta:ConsultasService,private alertCtrl:AlertController,private modalCtrl:ModalController) {}
   ngOnInit(){
@@ -73,5 +75,11 @@ export class HomePage {
     });
     await modal.present();
 
+  }
+  async abreAdmin(){
+    const modaladmin=await this.modalCtrl.create({
+      component:AdminPage,
+    });
+    await modaladmin.present();
   }
 }

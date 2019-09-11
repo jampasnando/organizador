@@ -3,7 +3,9 @@ import { ActivatedRoute } from '@angular/router';
 import { ConsultasService } from '../service/consultas.service';
 import { AlertController, IonList, ModalController } from '@ionic/angular';
 import { ModalPage } from './modal/modal.page';
-
+import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer/ngx';
+import { File } from '@ionic-native/file/ngx';
+import { GLOBAL }  from '../service/global';
 @Component({
   selector: 'app-unevento',
   templateUrl: './unevento.page.html',
@@ -16,10 +18,11 @@ export class UneventoPage implements OnInit {
   desc:string;
   reuniones:any;
   hoy:Date;
-  constructor(private alertCtrl:AlertController, private activatedRoute:ActivatedRoute,private consultas:ConsultasService,private modalCtrl:ModalController) { }
+  elrol=GLOBAL.usuariorol;
+  constructor(private alertCtrl:AlertController, private activatedRoute:ActivatedRoute,private consultas:ConsultasService,private modalCtrl:ModalController, private transfer:FileTransfer, private file:File) { }
 
   ngOnInit() {
-
+    console.log("usr: ",GLOBAL);
   }
   ionViewWillEnter(){
     this.hoy=new Date();
@@ -85,5 +88,27 @@ export class UneventoPage implements OnInit {
     await modal.present();
 
   }
-  
+  reportecsv(idreunion){
+    let hoy=new Date();
+    let ano=hoy.getFullYear().toString();
+    let mes=(1+hoy.getMonth()).toString();
+    let dia=hoy.getDate().toString();
+    let hora=hoy.getHours().toString();
+    let min=hoy.getMinutes().toString();
+    if(mes.length==1){mes="0"+mes};
+    if(dia.length==1){dia="0"+dia};
+    if(hora.length==1){hora="0"+hora};
+    if(min.length==1){min="0"+min};
+    let marca=dia + "_" +mes + "_" +ano + "_" +hora + "_" +min;
+    
+    const fileTransfer: FileTransferObject = this.transfer.create();
+    const url = GLOBAL.urlcsv.concat("exportasistencias.php?idreunion=").concat(idreunion).concat("&").concat(hoy.getTime().toString());
+    console.log("direccion: ",url);
+    fileTransfer.download(url, this.file.externalRootDirectory + 'Organizador/asistencias_'+marca+'.csv').then((entry) => {
+      alert("Descargado a carpeta Organizador en tu Dispositivo");
+    }, (error) => {
+      alert("Error al descargar archivo");
+    });
+    this.mislide.closeSlidingItems();
+  }
 }

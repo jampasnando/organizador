@@ -5,7 +5,7 @@
       </ion-buttons>
     <ion-title>{{nombrereunion}}</ion-title>
     <ion-buttons slot="end">
-        <ion-button routerLink="/">
+        <ion-button routerLink="/home">
           <ion-icon name="home"></ion-icon>
         </ion-button>
       </ion-buttons>
@@ -31,7 +31,7 @@
       
     </ion-list-header>
     <ion-item-sliding *ngFor="let unconvocado of convocados;let i=index" #mislide>
-      <ion-item-options side="start">
+      <ion-item-options side="start" *ngIf="elrol=='administrador'">
           <ion-item-option color="danger" (click)="borraConvocado(unconvocado)">
               Borrar
             </ion-item-option>
@@ -56,7 +56,7 @@
       </ion-item>
     </ion-item-sliding>
   </ion-list>
-  <ion-fab vertical="bottom" horizontal="end" [routerLink]="['/convocados2',idreunion]">
+  <ion-fab vertical="bottom" horizontal="end" [routerLink]="['/convocados2',idreunion]" *ngIf="elrol=='administrador'">
     <ion-fab-button>
       <ion-icon name="person-add"></ion-icon>
     </ion-fab-button>

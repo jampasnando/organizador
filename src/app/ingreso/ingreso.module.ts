@@ -5,15 +5,14 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { UnareunionPage } from './unareunion.page';
-import { ConsultasService } from '../service/consultas.service';
+import { IngresoPage } from './ingreso.page';
 import { HttpClientModule } from '@angular/common/http';
-import { ComentarPage } from './comentar/comentar.page';
+import { ConsultasService } from '../service/consultas.service';
 
 const routes: Routes = [
   {
     path: '',
-    component: UnareunionPage
+    component: IngresoPage
   }
 ];
 
@@ -25,8 +24,7 @@ const routes: Routes = [
     HttpClientModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [UnareunionPage,ComentarPage],
-  providers:[ConsultasService,ComentarPage],
-  entryComponents:[ComentarPage]
+  declarations: [IngresoPage],
+  providers:[ConsultasService]
 })
-export class UnareunionPageModule {}
+export class IngresoPageModule {}

@@ -7,12 +7,17 @@ import { HomePage } from './home.page';
 import { ConsultasService } from '../service/consultas.service';
 import { HttpClientModule } from '@angular/common/http';
 import { ModaleventoPage } from './modalevento/modalevento.page';
+import { AdminPage } from './admin/admin.page';
+import { NuevousrPage } from './nuevousr/nuevousr.page';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
     CommonModule,
     IonicModule,
     HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
     RouterModule.forChild([
       {
         path: '',
@@ -20,8 +25,8 @@ import { ModaleventoPage } from './modalevento/modalevento.page';
       }
     ])
   ],
-  declarations: [HomePage,ModaleventoPage],
-  entryComponents:[ModaleventoPage],
-  providers:[ConsultasService,ModaleventoPage]
+  declarations: [HomePage,ModaleventoPage,AdminPage,NuevousrPage],
+  entryComponents:[ModaleventoPage,AdminPage,NuevousrPage],
+  providers:[ConsultasService,ModaleventoPage,AdminPage,NuevousrPage]
 })
 export class HomePageModule {}

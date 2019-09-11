@@ -11,7 +11,7 @@
           <ion-button size="small" color="{{cargo}}" [routerLink]="['/convocados3',idreunion]">C</ion-button>
           <ion-button size="small" color="{{nombre}}" [routerLink]="['/convocados',idreunion]">N</ion-button>  
         </div>
-        <ion-button routerLink="/">
+        <ion-button routerLink="/home">
             <ion-icon name="home"></ion-icon>
           </ion-button>
         </ion-buttons>
@@ -21,22 +21,43 @@
   <ion-content>
       <!-- <ion-button size="small">N</ion-button> -->
       <ion-virtual-scroll [items]="empleados">
-          <ion-item-sliding *virtualItem="let unemp" (click)="vecheck($event,unemp)">
-            <ion-item-options>
-              <ion-item-option (click)="comenta()">Comentar</ion-item-option>
-            </ion-item-options>
-            <ion-item>
-              <ion-icon name="contact" slot="start" color="medium"></ion-icon>
-              <ion-label>
-                <h4>{{unemp.unidad}}</h4>
-                <h6>{{unemp.cargo}}</h6>
-                <p> {{unemp.empleado}}</p>
-               
-              </ion-label>
-              <ion-badge *ngIf="unemp.convocado!=''" color="warning">{{unemp.convocado}}</ion-badge>
-            </ion-item>
-          </ion-item-sliding>  
-        </ion-virtual-scroll>
+        <ion-item-group *virtualItem="let unemp;let i=index">
+            <ion-item-divider *ngIf="i==0">
+                <ion-checkbox mode="ios" (ionChange)="chequea($event,empleados[i].unidad)"></ion-checkbox>&nbsp;&nbsp;
+              <ion-label >{{empleados[i].unidad}}</ion-label>
+            </ion-item-divider>
+            <ion-item-divider *ngIf="i>0 && empleados[i].unidad!=empleados[i-1].unidad">
+                <ion-checkbox  mode="ios" (ionChange)="chequea($event,empleados[i].unidad)"></ion-checkbox>&nbsp;&nbsp;
+                <ion-label >{{empleados[i].unidad}}</ion-label>
+              </ion-item-divider>
+              <ion-item-sliding  (click)="vecheck($event,unemp)">
+                <ion-item-options>
+                  <ion-item-option (click)="comenta()">Comentar</ion-item-option>
+                </ion-item-options>
+                <ion-item *ngIf="unemp.convocado=='yaconvocado'" color="light">
+                  <ion-icon name="contact" slot="start" color="medium"></ion-icon>
+                  <ion-label>
+                    <!-- <h4>{{unemp.unidad}}</h4> -->
+                    <h6>{{unemp.cargo}}</h6>
+                    <p> {{unemp.empleado}}</p>
+                  
+                  </ion-label>
+                  <ion-badge *ngIf="unemp.convocado!=''" color="medium">{{unemp.convocado}}</ion-badge>
+                </ion-item>
+                <ion-item *ngIf="unemp.convocado!='yaconvocado'">
+                  <ion-icon name="contact" slot="start" color="medium"></ion-icon>
+                  <ion-label>
+                    <!-- <h4>{{unemp.unidad}}</h4> -->
+                    <h6>{{unemp.cargo}}</h6>
+                    <p> {{unemp.empleado}}</p>
+                  
+                  </ion-label>
+                  <ion-badge *ngIf="unemp.convocado!=''" color="warning">{{unemp.convocado}}</ion-badge>
+                </ion-item>
+              </ion-item-sliding> 
+           
+        </ion-item-group>
+       </ion-virtual-scroll>
     
   </ion-content>
   <ion-footer>
