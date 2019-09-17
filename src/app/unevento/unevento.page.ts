@@ -6,6 +6,8 @@ import { ModalPage } from './modal/modal.page';
 import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer/ngx';
 import { File } from '@ionic-native/file/ngx';
 import { GLOBAL }  from '../service/global';
+import { Diagnostic } from '@ionic-native/diagnostic/ngx';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 @Component({
   selector: 'app-unevento',
   templateUrl: './unevento.page.html',
@@ -19,10 +21,11 @@ export class UneventoPage implements OnInit {
   reuniones:any;
   hoy:Date;
   elrol=GLOBAL.usuariorol;
-  constructor(private alertCtrl:AlertController, private activatedRoute:ActivatedRoute,private consultas:ConsultasService,private modalCtrl:ModalController, private transfer:FileTransfer, private file:File) { }
+  constructor(private alertCtrl:AlertController, private activatedRoute:ActivatedRoute,private consultas:ConsultasService,private modalCtrl:ModalController, private transfer:FileTransfer, private file:File,private diagnostic:Diagnostic, private permissions:AndroidPermissions) { }
 
   ngOnInit() {
     console.log("usr: ",GLOBAL);
+    this.permissions.requestPermission(this.permissions.PERMISSION.requestExternalStorageAuthorization);
   }
   ionViewWillEnter(){
     this.hoy=new Date();
@@ -78,7 +81,7 @@ export class UneventoPage implements OnInit {
       
     });
     modal.onDidDismiss().then((datos)=>{
-      if(datos.data!="cancelado"){
+      if(datos.data=="Por realizarse" || datos.data=="Completado"  || datos.data=="Suspendido"|| datos.data=="Cancelado"){
         this.consultas.actualizaEstadoReunion(reunion.id,datos.data).subscribe((dato:any)=>{
           reunion.estado=datos.data;
         });
@@ -100,15 +103,20 @@ export class UneventoPage implements OnInit {
     if(hora.length==1){hora="0"+hora};
     if(min.length==1){min="0"+min};
     let marca=dia + "_" +mes + "_" +ano + "_" +hora + "_" +min;
+    // this.diagnostic.requestExternalStorageAuthorization().then(()=>{
+        const fileTransfer: FileTransferObject = this.transfer.create();
+        const url = GLOBAL.urlcsv.concat("exportasistencias.php?idreunion=").concat(idreunion).concat("&").concat(hoy.getTime().toString());
+        console.log("direccion: ",url);
+        fileTransfer.download(url, this.file.externalDataDirectory + 'asistencias_'+marca+'.csv').then((entry) => {
+          alert("Descargado a carpeta Organizador en tu Dispositivo");
+        }, (error) => {
+          alert("Error al descargar archivo");
+        });
+    // })
+    // .catch((error)=>{
+    //   alert("no tiene permiso de acceder memoria externa");
+    // });
     
-    const fileTransfer: FileTransferObject = this.transfer.create();
-    const url = GLOBAL.urlcsv.concat("exportasistencias.php?idreunion=").concat(idreunion).concat("&").concat(hoy.getTime().toString());
-    console.log("direccion: ",url);
-    fileTransfer.download(url, this.file.externalRootDirectory + 'Organizador/asistencias_'+marca+'.csv').then((entry) => {
-      alert("Descargado a carpeta Organizador en tu Dispositivo");
-    }, (error) => {
-      alert("Error al descargar archivo");
-    });
     this.mislide.closeSlidingItems();
   }
 }

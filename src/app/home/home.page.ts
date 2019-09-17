@@ -65,7 +65,7 @@ export class HomePage {
       
     });
     modal.onDidDismiss().then((datos)=>{
-      if(datos.data!="cancelado"){
+      if(datos.data=="abierto" || datos.data=="cerrado"){
         this.consulta.actualizaEstadoEv(evento.id,datos.data).subscribe((res:any)=>{
           evento.estado=datos.data;
         });

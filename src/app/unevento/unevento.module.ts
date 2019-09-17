@@ -11,6 +11,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { ModalPage } from './modal/modal.page';
 import { File } from '@ionic-native/file/ngx';
 import { FileTransfer } from '@ionic-native/file-transfer/ngx';
+import { Diagnostic } from '@ionic-native/diagnostic/ngx';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 
 const routes: Routes = [
   {
@@ -28,7 +30,7 @@ const routes: Routes = [
     RouterModule.forChild(routes)
   ],
   declarations: [UneventoPage,ModalPage],
-  providers:[ConsultasService,ModalPage,File,FileTransfer],
+  providers:[ConsultasService,ModalPage,File,FileTransfer,Diagnostic,AndroidPermissions],
   entryComponents:[ModalPage]
 })
 export class UneventoPageModule {}

@@ -1,7 +1,7 @@
 <ion-content>
 <div class="contenedor">
   <div class="cajas">
-    <div class="caja" size="2"><ion-input [(ngModel)]="password" (keyup.enter)="ingresar()"></ion-input></div>
+    <div class="caja" size="2"><ion-input autofucus="true" #login [(ngModel)]="password" (keyup.enter)="ingresar()" type="numeric" style="-webkit-text-security: disc;"></ion-input></div>
     <ion-tab-button (click)="ingresar()">
       <ion-icon name="lock"></ion-icon>
       <ion-label>Ingresar</ion-label>

@@ -23,6 +23,7 @@ export class NuevoasistentePage implements OnInit {
   pornombre="primary";
   poritem="medium";
   porci="medium";
+  porcargo="medium";
   activo="nombre";
   tiqueador=GLOBAL.usuarionombre;
   constructor(private consultas: ConsultasService, private alertCtrl:AlertController, private activatedRoute:ActivatedRoute,private router:Router) {
@@ -44,11 +45,13 @@ export class NuevoasistentePage implements OnInit {
             return ((x[property] === y[property]) ? 0 : ((x[property] > y[property]) ? 1 : -1));
         };
       };
+      
       this.empleados=data.sort(sortByProperty('nombre'));
       for(let xx of this.empleados){
         xx.marcador="";
         xx.hora_registro=JSON.parse(xx.hora_registro);
       }
+      console.log("empleados: ",this.empleados);
       this.empleados2=this.empleados;
     });
   }
@@ -66,11 +69,15 @@ export class NuevoasistentePage implements OnInit {
       // this.searchTerm="";
       // this.buscador.setFocus();
       this.nroxaenviar++;
+      
     }
     else{
       this.confirmaBorrar(unemp);
       
     }
+  }
+  public clickbuscador(evento):void{
+    evento.srcElement.select();
   }
   async confirmaBorrar(aux){
     const alerta=await this.alertCtrl.create({
@@ -113,6 +120,9 @@ export class NuevoasistentePage implements OnInit {
        if(this.activo=="ci"){
         return item.ci.toLowerCase().indexOf(searchTerm.toLowerCase()) ==0;
        }
+       if(this.activo=="cargo"){
+        return item.cargo.toLowerCase().indexOf(searchTerm.toLowerCase()) ==0;
+       }
       });
     }
     else {
@@ -150,19 +160,29 @@ export class NuevoasistentePage implements OnInit {
       this.pornombre="primary";
       this.poritem="medium";
       this.porci="medium";
+      this.porcargo="medium";
       this.activo="nombre";
     }
     if(campo=="item"){
       this.pornombre="medium";
       this.poritem="primary";
       this.porci="medium";
+      this.porcargo="medium";
       this.activo="item";
     }
     if(campo=="ci"){
       this.pornombre="medium";
       this.poritem="medium";
       this.porci="primary";
+      this.porcargo="medium";
       this.activo="ci";
+    }
+    if(campo=="cargo"){
+      this.pornombre="medium";
+      this.poritem="medium";
+      this.porci="medium";
+      this.porcargo="primary";
+      this.activo="cargo";
     }
     this.searchTerm="";
     this.buscador.setFocus();

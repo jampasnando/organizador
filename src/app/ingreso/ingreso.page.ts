@@ -1,19 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConsultasService } from '../service/consultas.service';
 import { GLOBAL } from '../service/global';
-import { Glob } from 'glob';
+import { IonInput } from '@ionic/angular';
 @Component({
   selector: 'app-ingreso',
   templateUrl: './ingreso.page.html',
   styleUrls: ['./ingreso.page.scss'],
 })
 export class IngresoPage implements OnInit {
+@ViewChild("login",{static:true}) private login:IonInput
   password:string;
   constructor(private router:Router,private consultas:ConsultasService) { }
 
   ngOnInit() {
     
+  }
+  ionViewDidEnter(){
+    this.login.setFocus();
+    // setTimeout(()=>{this.login.setFocus()},1500);
   }
   ingresar(){
     console.log(this.password);
