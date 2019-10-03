@@ -27,7 +27,6 @@
               <h4><ion-icon name="contact"></ion-icon> {{unemp.nombre}}</h4>
               <p>item: {{unemp.item}} | ci: {{unemp.ci}} | {{unemp.cargo}}</p>
             </ion-label>
-            <!-- <ion-badge *ngIf="unemp.marcador!=''" color="secondary">{{unemp.marcador}}</ion-badge> -->
             <div class="divmarcador" slot="end" (click)="vecheck($event,unemp)" *ngIf="unemp.marcador==''">{{unemp.marcador}}</div>
             <div class="divmarcador fondomarcador" slot="end" (click)="vecheck($event,unemp)" *ngIf="unemp.marcador!=''">{{unemp.marcador}}</div>
           </ion-item>
