@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar mode="ios" class="toolbar">
+      <ion-buttons slot="start">
+          <ion-back-button></ion-back-button>
+      </ion-buttons>
+    <ion-title>Nuevo Evento</ion-title>
+    <ion-buttons slot="end">
+        <ion-button routerLink="/home">
+          <ion-icon name="home"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+<form [formGroup]="formulario">
+  <ion-item>
+      <ion-label position="floating" color="primary">*Nombre</ion-label>
+      <ion-input formControlName="nombre" type="text" autocapitalize="sentences"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating" color="primary">Descripción</ion-label>
+    <ion-textarea clearOnEdit="true" rows="5" cols="10" formControlName="descripcion"></ion-textarea>
+  </ion-item>
+  <ion-item>
+    <ion-label color="primary">Estado</ion-label>
+    <ion-select formControlName="estado">
+      <ion-select-option value="abierto">Abierto</ion-select-option>
+      <ion-select-option value="cerrado">Cerrado</ion-select-option>
+    </ion-select>
+  </ion-item>
+  <ion-button expand="full" (click)="guardaNuevoEvento()" [disabled]="!formulario.valid">Guardar Cambios</ion-button>
+
+</form>
+</ion-content>
+ 

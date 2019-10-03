@@ -1,0 +1,24 @@
+.descevento{
+    background: whitesmoke;
+    color:darkgray;
+    padding: 3px 5px;
+}
+.reuniones{
+    background: khaki !important;
+}
+ion-item-option{
+    text-align: center;
+}
+.toolbar{
+    --background: khaki !important;
+}
+
+.pie{
+    background-image: url("../../assets/images/transp.png");
+    height: 5em;
+    width: 100%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    position: fixed;
+    bottom: 0;
+}

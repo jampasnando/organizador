@@ -1,0 +1,29 @@
+.peligro{
+    background-color: red !important;
+}
+.nrotiq{
+    background: blue;
+    padding:2px;
+}
+.filtros{
+    background:white;
+    // color: navy;
+    border-radius: 10px;
+    padding: 0;
+}
+.divmarcador{
+    height:1.8em;
+    width:4em;
+    border:1px solid lightgray;
+    border-radius: 10px 10px;
+    display: flex;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8em;
+    font-weight: bold;
+}
+.fondomarcador{
+    background: lightcyan;
+    color:lightseagreen;
+}

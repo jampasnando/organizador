@@ -1,0 +1,67 @@
+<ion-header>
+  <ion-toolbar mode="ios" color="primary">
+      <ion-buttons slot="start">
+          <ion-back-button></ion-back-button>
+      </ion-buttons>
+    <ion-title>{{nombrereunion}}</ion-title>
+    <ion-buttons slot="end">
+        <ion-button routerLink="/home">
+          <ion-icon name="home"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-label>
+    <p class="detalle">{{lugar}} - {{fecha}} - hora:{{hora}} - duracioón:{{duracion}}</p>
+    <p class="detalle">{{instrucciones}}</p>
+  </ion-label>
+  <ion-list #mislide>
+    <ion-list-header>
+      
+        <ion-label>
+          <h3>Convocados({{cantidad}}):</h3>
+        </ion-label>
+        <div class="tiqueo">
+          Tik:
+          <ion-button *ngFor="let untiq of tiqueos" slot="end" size="small" [routerLink]="['/nuevoasistente',idreunion,untiq]" >{{untiq}}</ion-button>
+          
+        </div>
+      
+    </ion-list-header>
+    <ion-item-sliding *ngFor="let unconvocado of convocados;let i=index" #mislide>
+      <ion-item-options side="start" *ngIf="elrol=='administrador'">
+          <ion-item-option color="danger" (click)="borraConvocado(unconvocado)">
+              Borrar
+            </ion-item-option>
+      </ion-item-options>
+      <ion-item-options side="end">
+        <ion-item-option color="primary" (click)="comentaConvocado(unconvocado)">
+            Comentar
+          </ion-item-option>
+      </ion-item-options>
+      <ion-item >
+        <ion-icon name="contact" color="medium" slot="start" ></ion-icon>
+        <ion-label>
+          <h4>{{unconvocado.nombre}}</h4>
+          <h6>{{unconvocado.unidad}}</h6>
+          <h5>{{unconvocado.cargo}}</h5>
+        <h4>
+          <span *ngFor="let xx of unconvocado.hora_registro | keyvalue">
+            <span class="conhora" *ngIf="xx.value!=''">{{xx.value}}</span>
+            <span class="sinhora" *ngIf="xx.value==''">{{xx.value}}</span>
+          </span>
+        </h4>
+        <!-- <h4>{{unconvocado.cargo}}</h4> -->
+        </ion-label>
+        <!-- <ion-badge *ngFor="let xx of unconvocado.hora_registro | keyvalue">{{xx.value}}</ion-badge> -->
+      </ion-item>
+    </ion-item-sliding>
+  </ion-list>
+  <ion-fab vertical="bottom" horizontal="end" [routerLink]="['/convocados2',idreunion]" *ngIf="elrol=='administrador'">
+    <ion-fab-button>
+      <ion-icon name="person-add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

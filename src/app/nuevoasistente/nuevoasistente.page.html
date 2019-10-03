@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-toolbar color="primary">
+      <ion-buttons slot="start">
+          <ion-back-button></ion-back-button>
+      </ion-buttons>
+    <ion-title>TIQUEO: {{nrotiq}} </ion-title>
+    <ion-buttons slot="end">
+        <div class="filtros">
+          <ion-button size="small" color="{{pornombre}}" (click)="criterio('nombre')" >n</ion-button>
+          <ion-button size="small" color="{{poritem}}"  (click)="criterio('item')" >it</ion-button>
+          <ion-button size="small" color="{{porci}}"  (click)="criterio('ci')" >ci</ion-button>
+          <ion-button size="small" color="{{porcargo}}"  (click)="criterio('cargo')" >Carg</ion-button>
+        </div>
+        <ion-button routerLink="/home">
+          <ion-icon name="home"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-searchbar [(ngModel)]="searchTerm" (ionChange)="setFilteredItems()" #buscador (click)="clickbuscador($event)"></ion-searchbar>
+    <ion-virtual-scroll [items]="empleados ">
+        <ion-item-sliding *virtualItem="let unemp" >
+          <ion-item>
+            <ion-label>
+              <h4><ion-icon name="contact"></ion-icon> {{unemp.nombre}}</h4>
+              <p>item: {{unemp.item}} | ci: {{unemp.ci}} | {{unemp.cargo}}</p>
+            </ion-label>
+            <!-- <ion-badge *ngIf="unemp.marcador!=''" color="secondary">{{unemp.marcador}}</ion-badge> -->
+            <div class="divmarcador" slot="end" (click)="vecheck($event,unemp)" *ngIf="unemp.marcador==''">{{unemp.marcador}}</div>
+            <div class="divmarcador fondomarcador" slot="end" (click)="vecheck($event,unemp)" *ngIf="unemp.marcador!=''">{{unemp.marcador}}</div>
+          </ion-item>
+        </ion-item-sliding>  
+    </ion-virtual-scroll>
+</ion-content>
+<ion-footer>
+    <ion-toolbar>
+      <ion-button expand="block" (click)="guardatiqueos()">Guardar Tiqueos ({{nroxaenviar}})</ion-button>
+    </ion-toolbar>
+  </ion-footer>

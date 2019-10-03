@@ -1,0 +1,38 @@
+.detalle{
+    background: whitesmoke;
+    color:darkgray;
+    padding: 3px 5px;
+}
+.tiqueo{
+    position: relative;
+    right:1em;
+}
+ion-list-header{
+    background: khaki;
+}
+.conhora{
+    background:aliceblue;
+    border-radius: 0.3em 0.3em;
+    color:lightseagreen;
+    // border:1px solid lightgray;
+    margin: 0 1px;
+    padding: 0 4px;
+}
+.sinhora{
+    background:lightcoral;
+    border-radius: 0.3em 0.3em;
+    color:lightseagreen;
+    // border:1px solid lightgray;
+    margin: 0 1px;
+    padding: 0 4px;
+}
+h6,h5{
+    font-size: 0.6em;
+}
+// h5{
+//     color:lightseagreen;
+//     font-size: 0.8em;
+// }
+ion-content{
+    height: 100%;
+}

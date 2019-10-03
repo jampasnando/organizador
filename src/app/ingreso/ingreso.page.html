@@ -1,0 +1,16 @@
+<ion-content>
+  <!-- <div class="logo"><img src="../../assets/images/checklist.png" alt=""></div> -->
+  <div class="rrhh">Recursos Humanos</div>
+<div class="contenedor">
+  <div class="cajas">
+    <div class="caja" size="2"><ion-input autofucus="true" #login [(ngModel)]="password" (keyup.enter)="ingresar()" type="numeric" style="-webkit-text-security: disc;"></ion-input></div>
+    <ion-tab-button (click)="ingresar()">
+      <ion-icon name="lock"></ion-icon>
+      <ion-label>Ingresar</ion-label>
+    </ion-tab-button>
+  </div>
+</div>
+</ion-content>
+<ion-footer>
+  <div class="pie"></div>
+</ion-footer>
